@@ -9,9 +9,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.*;
 
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 public class ProdutoTest {
 	
@@ -19,23 +17,33 @@ public class ProdutoTest {
 	
 	@BeforeEach
 	public void inicializa() {
-		livro = new Produto("IntroduÁ„o ao Teste de Software", 100.00);
+		livro = new Produto("Introdu√ß√£o ao Teste de Software", 100.00);
 	}
 	
 	@Test
 	public void testCriaProduto() {
 		Assertions.assertAll("livro",
-				() -> assertEquals("IntroduÁ„o ao Teste de Software", livro.getNome()),
+				() -> assertEquals("Introdu√ß√£o ao Teste de Software", livro.getNome()),
 				() -> assertTrue(100.00 == livro.getPreco())						
 				);
 	}
 	
 	@Test
-	public void testProdutosIguais() {
-		Produto livro2 = new Produto("IntroduÁ„o ao Teste de Software", 90.00);
-		
+	public void testProdutosDiferentesPeloPre√ßo() {
+		Produto livro2 = new Produto("Introdu√ß√£o ao Teste de Software", 90.00);
 		assertNotSame(livro, livro2);
-		
+	}
+
+	@Test
+	public void testProdutosDiferentesPeloNome() {
+		Produto livro2 = new Produto("Introdu√ß√£o ao Teste de Sistema", 100.00);
+		assertNotSame(livro, livro2);
+	}
+	
+	@Test
+	public void testProdutosIguais() {
+		Produto livro2 = new Produto("Introdu√ß√£o ao Teste de Software", 100.00);
+		assertNotSame(livro, livro2);
 	}
 	
 	@Test
@@ -44,6 +52,18 @@ public class ProdutoTest {
 		assertThat(livro.getNome(), notNullValue());
 		assertThat(livro.getNome(), containsString("Teste"));
 		assertThat(livro, instanceOf(Produto.class));
+	}
+
+	@Test
+	public void testAlterarNome(){
+		livro.setNome("O Homem que calculava");
+		Assertions.assertEquals("O Homem que calculava", livro.getNome());
+	}
+
+	@Test
+	public void testAlterarPreco(){
+		livro.setPreco(55.50);
+		Assertions.assertTrue(livro.getPreco() == 55.50);
 	}
 
 }
